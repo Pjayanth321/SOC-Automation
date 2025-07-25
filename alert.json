@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-06-04T13:05:41.407+0000",
+  "rule": {
+    "level": 7,
+    "description": "Listened ports status (netstat) changed (new port opened or closed)."
+  },
+  "title": "Wazuh Alert - Listened ports status changed",
+  "tags": ["wazuh", "netstat", "automation"],
+  "severity": "medium"
+}

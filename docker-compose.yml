@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 2g
+    ports:
+      - "9200:9200"
+    networks:
+      - thehive-network
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: always
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_DB: thehive
+      POSTGRES_USER: thehive
+      POSTGRES_PASSWORD: thehive_password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - thehive-network
+    restart: always
+
+  cassandra:
+    image: cassandra:3
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+networks:
+      - thehive-network
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    restart: always
+
+  thehive:
+    image: thehiveproject/thehive:3.5.2-1
+    container_name: thehive
+    environment:
+      HTTP_PORT: 9000
+      PLAY_SECRET: "b79f3e289426e2ac63ccf2daa273d228"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: thehive
+      DB_PASSWORD: thehive_password
+      DB_NAME: thehive
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+      - elasticsearch
+    networks:
+      - thehive-network
+    restart: always
+
+  wazuh-manager:
+    image: wazuh/wazuh-manager:4.6.0
+    container_name: wazuh-manager
+    ports:
+      - "1514:1514/udp"
+      - "1515:1515"
+      - "55000:55000"
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    volumes:
+      - wazuh_data:/var/osssec/data
+    networks:
+      - thehive-network
+    restart: always
+
+  wazuh-dashboard:
+    image: wazuh/wazuh-dashboard:4.6.0
+    container_name: wazuh-dashboard
+    depends_on:
+      - elasticsearch
+      - wazuh-manager
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
+    restart: always
+
+networks:
+  thehive-network:
+
+volumes:
+  elasticsearch_data:
+  pgdata:
+  cassandra_data:
+  wazuh_data:
