@@ -1,38 +1,40 @@
- SOC Automation with Wazuh, TheHive & Docker
 
- A complete project to simulate SOC automation using **Wazuh**, **TheHive**, and **Docker Compose**, designed to streamline alert detection and case management.
+# ⚙️ SOC Automation with Wazuh, TheHive & Docker
+
+A complete project to simulate SOC automation using **Wazuh**, **TheHive**, and **Docker Compose**, designed to streamline alert detection and case management.
 
 ---
 
-📌 Project Overview
+## 📌 Project Overview
 
 This project showcases a working integration of:
-**Wazuh**: For real-time security monitoring and threat detection.
-**TheHive**: For incident response and case management.
-**Docker Compose**: To containerize and orchestrate the setup efficiently.
+
+- **Wazuh**: For real-time security monitoring and threat detection  
+- **TheHive**: For incident response and case management  
+- **Docker Compose**: To containerize and orchestrate the setup efficiently
 
 The goal is to automate the security alert flow — from Wazuh detecting an event to automatically forwarding it to TheHive as a case.
 
 ---
 
-🧱 Architecture
+## 🧱 Architecture
 
 ![SOC Automation Architecture](architecture.png)
 
 ---
 
-⚙️ Components
+## ⚙️ Components
 
-| Component | Purpose |
-|----------|---------|
-| **Wazuh** | Monitors logs, triggers alerts |
-| **TheHive** | Receives alerts, manages cases |
-| **Python Script** | Sends alerts to TheHive |
-| **Docker Compose** | Deploys containers easily |
+| Component       | Purpose                               |
+|----------------|----------------------------------------|
+| **Wazuh**       | Monitors logs, triggers alerts         |
+| **TheHive**     | Receives alerts, manages cases         |
+| **Python Script** | Sends alerts to TheHive               |
+| **Docker Compose** | Deploys containers easily           |
 
 ---
 
-📂 Project Structure
+## 📂 Project Structure
 
 ```
 SOC-Automation-Wazuh-TheHive/
@@ -50,7 +52,7 @@ SOC-Automation-Wazuh-TheHive/
 
 ---
 
-Sample Alert (`alert_sample.json`)
+## 📦 Sample Alert (`alert_sample.json`)
 
 ```json
 {
@@ -67,7 +69,7 @@ Sample Alert (`alert_sample.json`)
 
 ---
 
- Python Script to Trigger Alert
+## 🐍 Python Script to Trigger Alert
 
 ```python
 import requests
@@ -96,7 +98,7 @@ print(response.status_code, response.text)
 
 ---
 
-🐳 Docker Compose Services
+## 🐳 Docker Compose Services
 
 ```yaml
 version: "3.8"
@@ -128,18 +130,27 @@ volumes:
   wazuh-data:
   esdata:
 ```
-📸 Screenshots
-
-| Description                        | Image |
-|------------------------------------|-------|
-| Alert sent from Wazuh to TheHive   | `1-wazuh-to-thehive-alert.jpg` |
-| Wazuh API login via curl           | `2-wazuh-api-curl-login.jpg`   |
-| Docker containers running          | `3-wazuh-containers-running.png` |
 
 ---
-🧠 Conclusion
+
+## 📸 Screenshots
+
+### 🔁 Alert Sent from Wazuh to TheHive  
+![Wazuh to TheHive](screenshots/1-wazuh-to-thehive-alert.jpg)
+
+### 🔐 Wazuh API Login via cURL  
+![Wazuh API Login](screenshots/2-wazuh-api-curl-login.jpg)
+
+### 🐳 Docker Containers Running  
+![Docker Running](screenshots/3-wazuh-containers-running.png)
+
+---
+
+## 🧠 Conclusion
 
 This project simulates a real-world SOC workflow:
-- Detect a security event in Wazuh
-- Automatically forward it to TheHive
-- Generate a case for investigation
+
+- Detect a security event in Wazuh  
+- Automatically forward it to TheHive  
+- Generate a case for investigation  
+```
